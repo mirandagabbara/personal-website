@@ -1,0 +1,29 @@
+/* Process feedback page Formatting */
+.feedback-container {
+    max-width: 80vw;
+    margin: 2em auto;
+    text-align: left;
+}
+
+.feedback-container h2 {
+    font-size: 1.5em;
+    color: #333;
+    text-align: center;
+}
+
+.feedback-list {
+    list-style-type: none;
+    padding: 0;
+}
+
+.feedback-list li {
+    margin: 1em 0;
+    padding: 1em;
+    background-color: #f9f9f9;
+    border-radius: 0.5em;
+    box-shadow: 0 0.2em 0.5em rgba(0, 0, 0, 0.1);
+}
+
+.feedback-list strong {
+    color: #2c3e50;
+}

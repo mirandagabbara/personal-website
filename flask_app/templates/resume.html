@@ -1,0 +1,54 @@
+{% extends 'shared/layout.html' %}
+
+
+{% block maincontent %}
+<div class="resume-container">
+    {% for inst_id, inst in resume_data.items() %}
+        <div class="institution-section">
+            <div class="institution-header">
+                <h2 class="institution-name">{{ inst['name'] }}</h2>
+                <div class="institution-location">{{ inst['city'] }}, {{ inst['state'] }}</div>
+            </div>
+
+            {% if inst['positions'] %}
+                <ul class="position-list">
+                    {% for pos_id, pos in inst['positions'].items() %}
+                        <li class="position-item">
+                            <div class="position-header">
+                                <h3 class="position-title">{{ pos['title'] }}</h3>
+                                <div class="position-dates">{{ pos['start_date'] }} - {{ pos['end_date'] or 'Present' }}</div>
+                            </div>
+                            <ul class="responsibilities-list">
+                                <li>{{ pos['responsibilities'] }}</li>
+                            </ul>
+
+                            {% if pos['experiences'] %}
+                                <ul class="experience-list">
+                                    {% for exp_id, exp in pos['experiences'].items() %}
+                                        <li class="experience-item">
+                                            {% if exp['hyperlink'] and exp['hyperlink'] != 'NULL' %}
+                                                <a href="{{ exp['hyperlink'] }}" class="experience-name" target="_blank">{{ exp['name'] }}</a>
+                                            {% else %}
+                                                <span class="experience-name">{{ exp['name'] }}</span>
+                                            {% endif %}
+                                            <p class="experience-description">{{ exp['description'] }}</p>
+                                            {% if exp['skills'] %}
+                                                <ul class="skills-list">
+                                                    {% for skill_id, skill in exp['skills'].items() %}
+                                                        <li class="skill-item">{{ skill['name'] }}: Level {{ skill['skill_level'] }}</li>
+                                                    {% endfor %}
+                                                </ul>
+                                            {% endif %}
+                                        </li>
+                                    {% endfor %}
+                                </ul>
+                            {% endif %}
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        </div>
+        <hr class="institution-divider">
+    {% endfor %}
+</div>
+{% endblock %}

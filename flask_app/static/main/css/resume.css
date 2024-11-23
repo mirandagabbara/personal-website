@@ -1,0 +1,146 @@
+/* General Styling */
+body {
+    font-family: Arial, sans-serif;
+    color: #333;
+    line-height: 1.6;
+    background-color: #f7f7f7;
+    padding: 2vh 2vw;
+}
+
+.resume-container {
+    max-width: 75vw;
+    margin: 0 auto;
+    padding: 2vh 2vw;
+    background-color: white;
+    box-shadow: 0 0 1rem rgba(0, 0, 0, 0.1);
+    border-radius: 0.5rem;
+}
+
+/* Institution formatting */
+.institution-section {
+    padding: 2vh 0;
+}
+
+.institution-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 1vh;
+}
+
+.institution-name {
+    font-size: 1.6rem;
+    font-weight: bold;
+    color: #2c3e50;
+}
+
+.institution-location {
+    font-size: 1rem;
+    color: #7f8c8d;
+    text-align: right;
+}
+
+/* Position formatting */
+.position-list {
+    list-style-type: none; 
+    padding-left: 0;
+    margin-top: 1vh;
+}
+
+.position-item {
+    margin-bottom: 1vh;
+}
+
+.position-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+}
+
+.position-title {
+    font-size: 1.3rem;
+    font-weight: bold;
+    color: #34495e;
+}
+
+.position-dates {
+    font-size: 1rem;
+    color: #95a5a6;
+    text-align: right;
+}
+
+/* Responsibilities formatting */
+.responsibilities-list {
+    list-style-type: disc;
+    padding-left: 2vw;
+    margin: 0.5vh 0;
+    text-align: left;
+}
+
+.position-responsibilities {
+    font-size: 1rem;
+    color: #2c3e50;
+}
+
+/* Experience formatting */
+.experience-list {
+    list-style-type: disc;
+    padding-left: 2vw;
+    margin-top: 0.5vh;
+    text-align: left;
+}
+
+.experience-item {
+    margin-bottom: 0.5vh;
+}
+
+.experience-name {
+    font-size: 1.1rem;
+    color: #2980b9;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.experience-name:hover {
+    text-decoration: underline;
+}
+
+.experience-description {
+    font-size: 1rem;
+    color: #2c3e50;
+    margin: 0.5vh 0;
+}
+
+/* Skills formatting */
+.skills-list {
+    list-style-type: circle;
+    padding-left: 2.5vw;
+    margin-top: 0.5vh;
+    text-align: left;
+}
+
+.skill-item {
+    font-size: 0.9rem;
+    color: #34495e;
+    margin-bottom: 0.3vh;
+}
+
+/* Divider */
+.institution-divider {
+    border: none;
+    border-top: 0.1rem solid #bdc3c7;
+    margin: 2vh 0;
+}
+
+/* Mobile integration */
+@media (max-width: 48em) {
+    .institution-header, .position-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .institution-name, .institution-location,
+    .position-title, .position-dates {
+        text-align: left;
+    }
+}

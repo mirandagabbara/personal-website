@@ -1,0 +1,26 @@
+{% extends 'shared/layout.html' %}
+
+{% block maincontent %}
+<div class="content-row">
+  <div class="left-column">
+    <img src="{{ url_for('static', filename='main/images/image.jpg') }}" alt="My image" loading="lazy">
+  </div>
+  <div class="right-column">
+    <h1>Miranda Gabbara</h1>
+    <p>
+      I am a senior at MSU studying Computer Science. With experience in Supply Chain Management and working in purchasing, I am interested in learning how to leverage technology and AI to drive innovaition. I hope to become a tech consultant.
+      Currently, I am a purchasing intern at MAHLE, where I help the company procure forklifts for all of their North America facilities. At MSU, I am working on various projects to further my programming and technological skills.
+    </p>
+  </div>
+</div>
+
+<!-- Another block of content -->
+<div class="fun-fact">
+    <h1> A fun fact about me:</h1>
+  <p>{{fun_fact}}</p>
+</div>
+
+
+{% endblock %}
+
+

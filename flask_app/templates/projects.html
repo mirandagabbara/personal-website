@@ -1,0 +1,25 @@
+{% extends 'shared/layout.html' %}
+
+{% block maincontent %}
+
+<div class="content-row">
+    <div class="left-column">
+      <a href="{{ url_for('piano') }}">
+        <img src="{{ url_for('static', filename='main/images/piano.jpeg') }}" alt="My piano" loading="lazy">
+      </a>
+    </div>
+    <div class="right-column">
+      <h1>JavaScript Piano</h1>
+      <p>
+          As part of my first homework assignment in CSE 477, I built and developed
+          a piano using HTML/CSS/JavaScript. This piano can be played with either a cursor
+          or a keyboard. It is mobile-friendly as well.
+          <a href="{{ url_for('piano') }}">Click on this link to play the piano!</a>
+      </p>
+    </div>
+  </div>
+<div class="fun-fact">
+    <p>More coming soon!</p>
+  </div>
+
+{% endblock %}

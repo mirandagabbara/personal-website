@@ -1,0 +1,133 @@
+/* General body styling */
+body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    margin: 0;
+    padding: 0;
+}
+
+/* Poem styling */
+.poem {
+    font-style: italic;
+    margin: 1.2em auto;
+    max-width: 600px;
+    overflow: hidden;
+    color: #333;
+}
+
+/* Piano container styling */
+.piano-container {
+    position: relative;
+    width: 100%;
+    max-width: 600px; 
+    height: 18.75em;  
+    margin: 0 auto;
+    overflow: hidden;
+
+}
+
+/* Great old one text styling */
+h2 {
+    font-size: 1.5em;
+    margin-bottom: 0.7em;
+}
+
+/* Piano styling */
+.piano {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    margin: 20px auto;
+    position: relative;
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+    aspect-ratio: 11 / 4;
+}
+
+/* Border for keys and other styling */
+.key {
+    border: 1px solid #000000;
+    box-shadow: 0 5px rgba(0,0,0,0.1);
+    cursor: pointer;
+    position: relative;
+    text-align: center;
+}
+
+/* Key letters */
+.key span {
+    font-size: 1.25em;
+    color: rgb(#FFFFFF);
+    position: absolute;
+    bottom: 0.7em;
+    left: 50%;
+    transform: translateX(-50%);
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+/* Hover letters for white keys */
+.key.white span {
+    color: #000000;
+}
+
+/* Hover letters for black keys */
+.key.black span {
+    color: #FFFFFF; /* Set the text color to white */
+}
+
+/* Hover letter for keys */
+.piano:hover .key span {
+    opacity: 1;
+}
+
+/* White key styling */
+.white {
+    background: #FFFFFF;
+    flex: 1;
+    height: 100%;
+    margin: 0 0.2%;
+}
+
+/* Black key styling */
+.black {
+    background: #000000;
+    position: absolute;
+    width: 5%;
+    height: 60%;
+    top: 0;
+    z-index: 1;
+}
+
+/* Position black keys */
+.black:nth-child(11) { left: 8%; }
+.black:nth-child(12) { left: 18%; }
+.black:nth-child(13) { left: 38%; }
+.black:nth-child(14) { left: 48%; }
+.black:nth-child(15) { left: 58%; }
+.black:nth-child(16) { left: 78%; }
+.black:nth-child(17) { left: 88%; }
+
+
+/* Styling for when a key is pressed */
+.pressed {
+    transform: scale(0.95); 
+    box-shadow: inset 0 0 5px #333;
+}
+
+/* Fade out styling for when the great old one is awaken */
+.fade-out {
+    opacity: 0;
+    transition: opacity 1s ease-out;
+}
+
+/* Styling for the great old one: image covers entire piano area, matching the height and width */
+.great-old-one {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;  
+    height: 100%;  
+    object-fit: cover;  
+    z-index: 10;  
+}
