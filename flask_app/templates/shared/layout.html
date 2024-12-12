@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Miranda Gabbara's Personal Page</title>
+  <title>Miranda Gabbara's personal page </title>
   <link rel="stylesheet"    href="{{ url_for('static', filename='main/css/main.css') }}">
   <link rel="stylesheet"    href="{{ url_for('static', filename='main/css/navbar.css') }}">
   <link rel="stylesheet"    href="{{ url_for('static', filename='main/css/header.css') }}">
@@ -12,6 +12,8 @@
   <link rel="stylesheet"    href="{{ url_for('static', filename='main/css/feedback.css') }}">
   <link rel="stylesheet"    href="{{ url_for('static', filename='main/css/footer.css') }}">
   <link rel="stylesheet"    href="{{ url_for('static', filename='piano/css/piano.css') }}">
+  <link rel="stylesheet"    href="{{ url_for('static', filename='main/css/login.css') }}">
+  <link rel="stylesheet"    href="{{ url_for('static', filename='main/css/chat.css') }}">
   <link rel="shortcut icon" href="{{ url_for('static', filename='main/images/favicon.ico') }}">
   {% block extracss %}{% endblock %}
   <script src="{{ url_for('static', filename='main/js/main.js') }}" defer></script>
@@ -21,14 +23,20 @@
 
 <body>
     <article>
-    <!-- The header  -->
-    <header>
+     <!-- The header  -->
+     <header>
       <div class="box"></div>
     </header>
 
     <!-- The navigation bar -->
-    <nav class="wrapper">
-      <p class="name">CSE477 - Homework 1</p>
+    <nav class="nav">
+        <p class="name">
+          {% if user == 'Unknown' %}
+              CSE 477 - Homework 3
+          {% else %}
+              Welcome {{ user }}
+          {% endif %}
+        </p>
       <div class="menu-icon" id="menu-icon">
           <img src="{{ url_for('static', filename='main/images/menu-bar.png') }}" alt="Menu Icon" loading="lazy">
 
@@ -37,15 +45,22 @@
           <li><a href="{{ url_for('home') }}">Home</a></li>
           <li><a href="{{ url_for('projects') }}">Projects</a></li>
           <li><a href="{{ url_for('resume') }}">Resume</a></li>
+          {% if user == 'Unknown' %}
+              <li><a href="{{ url_for('login') }}">Login</a></li>
+          {% else %}
+              <li><a href="{{ url_for('logout') }}">Logout</a></li>
+              <li><a href="{{ url_for('chat') }}">Chat</a></li>
+          {% endif %}
           <li id="linkedin-link">
             <a href="https://www.linkedin.com/in/mirandagabbara/">
               <img src="{{ url_for('static', filename='main/images/social-linkedin.png') }}" alt="LinkedIn Icon" loading="lazy">
-              <span class="linkedin-text">LinkedIn</span> </li>
-          </a>   
+              <span class="linkedin-text">LinkedIn</span> </a> </li>
+          
       </ul>
-  </nav>
 
-    <!-- Feedback content  -->
+    </nav>
+
+        <!-- Feedback content  -->
     <button id="feedback-button">Feedback</button>
     <div id="feedback-form-overlay" class="hidden">
         <form id="feedback-form" action="{{ url_for('processfeedback') }}" method="POST" enctype="application/x-www-form-urlencoded">
@@ -63,28 +78,35 @@
      </div>
       
 
+
     <!-- The main content  -->
     <main>
       {% block maincontent %}{% endblock %}
     </main>
 
-  </article>
-
-
     <!-- The footer of the file -->
     <footer>
-      <div class="foot">
-          <p>© Miranda Gabbara 2024</p>
-      </div>
+      <p>© Miranda Gabbara 2024</p>
+    </footer>
+    <script src="{{ url_for('static', filename='main/js/menu.js') }}" defer></script>
+    <script src=" {{ url_for('static', filename='piano/js/piano.js') }}" defer></script>
+    <script src="{{ url_for('static', filename='main/js/feedback.js') }}" defer></script>  
+    <script src="{{ url_for('static', filename='main/js/login.js') }}" defer></script>  
+    <script src="{{ url_for('static', filename='main/js/chat.js') }}" defer></script>  
 
-  </footer>
-  <script src="{{ url_for('static', filename='main/js/menu.js') }}" defer></script>
-  <script src=" {{ url_for('static', filename='piano/js/piano.js') }}" defer></script>
-  <script src="{{ url_for('static', filename='main/js/feedback.js') }}" defer></script>
 
+    </article>
+  
 </body>
 
 </html>
+
+
+
+
+
+
+
 
 
 

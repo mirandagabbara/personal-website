@@ -7,6 +7,7 @@ body {
     padding: 2vh 2vw;
 }
 
+
 .resume-container {
     max-width: 75vw;
     margin: 0 auto;
@@ -14,6 +15,8 @@ body {
     background-color: white;
     box-shadow: 0 0 1rem rgba(0, 0, 0, 0.1);
     border-radius: 0.5rem;
+    overflow: auto;
+    margin-top: 75vh;
 }
 
 /* Institution formatting */

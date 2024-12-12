@@ -1,19 +1,30 @@
 /* General styling */
-.wrapper {
+.nav {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: #000080; 
+    background-color: #040489; 
     height: 10vh; 
-    padding: 0 1.25em;
-    position: relative; 
-    z-index: 100; 
+    padding: 0 .25em;
+    position: sticky;
+    top: 0;
+    z-index: 1000; 
+
 }
 
 /* Title styling */
 .name {
     font-size: 1.5em;
     color: #FFFFFF; 
+    display: flex;
+    margin: 0;
+    white-space: nowrap;
+    padding: 0;
+    gap: .5em; 
+    justify-content: left; 
+    align-items: center; 
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 /* Styling for links */
@@ -109,7 +120,7 @@
 @media screen and (min-width: 651px) {
     /* Show links nomrally again */
     .links {
-        display: flex; 
+        display: flex !important;
         justify-content: flex-end; 
         position: relative;
     }

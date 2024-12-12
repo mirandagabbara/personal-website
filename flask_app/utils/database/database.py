@@ -4,7 +4,12 @@ import json
 import csv
 from io import StringIO
 import itertools
-import datetime
+import hashlib
+import os
+import cryptography
+from cryptography.fernet import Fernet
+from math import pow
+
 class database:
 
     def __init__(self, purge = False):
@@ -15,8 +20,19 @@ class database:
         self.user           = 'master'
         self.port           = 3306
         self.password       = 'master'
+        self.tables         = ['institutions', 'positions', 'experiences', 'skills','feedback', 'users']
+        
+        # NEW IN HW 3-----------------------------------------------------------------
+        self.encryption     =  {   'oneway': {'salt' : b'averysaltysailortookalongwalkoffashortbridge',
+                                                 'n' : int(pow(2,5)),
+                                                 'r' : 9,
+                                                 'p' : 1
+                                             },
+                                'reversible': { 'key' : '7pK_fnSKIjZKuv_Gwc--sZEMKn2zc8VvD6zS96XcNHE='}
+                                }
+        #-----------------------------------------------------------------------------
 
-    def query(self, query = "SELECT CURDATE()", parameters = None):
+    def query(self, query = "SELECT * FROM users", parameters = None):
 
         cnx = mysql.connector.connect(host     = self.host,
                                       user     = self.user,
@@ -45,39 +61,6 @@ class database:
         cur.close()
         cnx.close()
         return row
-
-    def about(self, nested=False):    
-        query = """select concat(col.table_schema, '.', col.table_name) as 'table',
-                          col.column_name                               as column_name,
-                          col.column_key                                as is_key,
-                          col.column_comment                            as column_comment,
-                          kcu.referenced_column_name                    as fk_column_name,
-                          kcu.referenced_table_name                     as fk_table_name
-                    from information_schema.columns col
-                    join information_schema.tables tab on col.table_schema = tab.table_schema and col.table_name = tab.table_name
-                    left join information_schema.key_column_usage kcu on col.table_schema = kcu.table_schema
-                                                                     and col.table_name = kcu.table_name
-                                                                     and col.column_name = kcu.column_name
-                                                                     and kcu.referenced_table_schema is not null
-                    where col.table_schema not in('information_schema','sys', 'mysql', 'performance_schema')
-                                              and tab.table_type = 'BASE TABLE'
-                    order by col.table_schema, col.table_name, col.ordinal_position;"""
-        results = self.query(query)
-        if nested == False:
-            return results
-
-        table_info = {}
-        for row in results:
-            table_info[row['table']] = {} if table_info.get(row['table']) is None else table_info[row['table']]
-            table_info[row['table']][row['column_name']] = {} if table_info.get(row['table']).get(row['column_name']) is None else table_info[row['table']][row['column_name']]
-            table_info[row['table']][row['column_name']]['column_comment']     = row['column_comment']
-            table_info[row['table']][row['column_name']]['fk_column_name']     = row['fk_column_name']
-            table_info[row['table']][row['column_name']]['fk_table_name']      = row['fk_table_name']
-            table_info[row['table']][row['column_name']]['is_key']             = row['is_key']
-            table_info[row['table']][row['column_name']]['table']              = row['table']
-        return table_info
-
-
 
     def createTables(self, purge=False, data_path='flask_app/database/'):
         if purge:
@@ -144,3 +127,58 @@ class database:
                         skill_id = skill['skill_id']
                         resume_data[inst_id]['positions'][position_id]['experiences'][experience_id]['skills'][skill_id] = skill
         return resume_data
+
+#######################################################################################
+# AUTHENTICATION RELATED
+#######################################################################################
+    def createUser(self, email='me@email.com', password='password', role='user'):
+        existing_user = self.query("SELECT * FROM users WHERE email = %s", [email])
+        if existing_user:
+            return {'success': 0, 'error': 'User already exists'}
+        
+        # Encrypt the password using Scrypt (via onewayEncrypt)
+        encrypted_password = self.onewayEncrypt(password)
+        
+        # Insert the new user with their role
+        self.query(
+            "INSERT INTO users (email, password, role) VALUES (%s, %s, %s)", 
+            [email, encrypted_password, role]
+        )
+        return {'success': 1}
+
+
+    def authenticate(self, email='me@email.com', password='password'):
+        # Encrypt the provided password for comparison
+        encrypted_password = self.onewayEncrypt(password)
+        # Check for matching email and password
+        user = self.query(
+            "SELECT * FROM users WHERE email = %s AND password = %s", 
+            [email, encrypted_password]
+        )
+        if user:
+            return {'success': 1, 'user': user[0]}
+        else:
+            return {'success': 0, 'error': 'Invalid email or password'}
+
+
+    def onewayEncrypt(self, string):
+        encrypted_string = hashlib.scrypt(string.encode('utf-8'),
+                                          salt = self.encryption['oneway']['salt'],
+                                          n    = self.encryption['oneway']['n'],
+                                          r    = self.encryption['oneway']['r'],
+                                          p    = self.encryption['oneway']['p']
+                                          ).hex()
+        return encrypted_string
+
+
+    def reversibleEncrypt(self, type, message):
+        fernet = Fernet(self.encryption['reversible']['key'])
+        
+        if type == 'encrypt':
+            message = fernet.encrypt(message.encode())
+        elif type == 'decrypt':
+            message = fernet.decrypt(message).decode()
+
+        return message
+
+
